@@ -17,31 +17,43 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(async (req, res, next) => {
   try {
-    const decision = await aj.protect(req,{
-      requested:1 //each request counts as 1 request
+    const decision = await aj.protect(req, {
+      requested: 1, //each request counts as 1 request
     });
-    if(decision.isDenied){
-      if(decision.isRateLimit()){
-        res.status(429).json({message:"Too many requests - Rate limit exceeded"})
-      } else if(decision.isBot()){
-        res.status(403).json({message:"Access denied - Bots are not allowed"})
+    if (decision.isDenied) {
+      if (decision.isRateLimit()) {
+        res
+          .status(429)
+          .json({ message: "Too many requests - Rate limit exceeded" });
+      } else if (decision.isBot()) {
+        res
+          .status(403)
+          .json({ message: "Access denied - Bots are not allowed" });
       } else {
-        res.status(403).json({message:"Access denied - Suspicious activity detected"})  
+        res
+          .status(403)
+          .json({ message: "Access denied - Suspicious activity detected" });
       }
-      return
-    } 
+      return;
+    }
 
-    if(decision.results.some((result) => result.reason.isBot() && result.reason.IsSpoofed)){
-      res.status(403).json({message:"Access denied - Spoofed bot activity detected"})
-      return
+    if (
+      decision.results.some(
+        (result) => result.reason.isBot() && result.reason.IsSpoofed
+      )
+    ) {
+      res
+        .status(403)
+        .json({ message: "Access denied - Spoofed bot activity detected" });
+      return;
     }
     next();
-    }catch (error) {
-      console.log("the error is :",error);
-      res.status(500).json({ message: "server error" });
-      next(error);
+  } catch (error) {
+    console.log("the error is :", error);
+    res.status(500).json({ message: "server error" });
+    next(error);
   }
-})
+});
 app.use("/api/products", productRoutes);
 
 async function initDB() {

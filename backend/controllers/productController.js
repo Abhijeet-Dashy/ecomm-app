@@ -6,7 +6,7 @@ export const getAllProducts = async (req, res) => {
     console.log(product);
     res.status(200).json({ message: "fetch successful", data: product });
   } catch (error) {
-    console.log("the error is :",error);
+    console.log("the error is :", error);
     res.status(500).json({ message: "server error" });
   }
 };
@@ -21,7 +21,7 @@ export const getProduct = async (req, res) => {
     console.log(product);
     res.status(200).json({ message: "fetch successful", data: product });
   } catch (error) {
-    console.log("the error is :",error);
+    console.log("the error is :", error);
     res.status(500).json({ message: "server error" });
   }
 };
@@ -39,7 +39,7 @@ export const createProduct = async (req, res) => {
       .status(201)
       .json({ message: "product created successfully", data: createdProduct });
   } catch (error) {
-    console.log("the error is :",error);
+    console.log("the error is :", error);
     res.status(500).json({ message: "server error" });
   }
 };
@@ -61,7 +61,7 @@ export const updateProduct = async (req, res) => {
       .status(200)
       .json({ message: "product updated successfully", data: newProduct });
   } catch (error) {
-    console.log("the error is :",error);
+    console.log("the error is :", error);
     res.status(500).json({ message: "server error" });
   }
 };
@@ -79,7 +79,7 @@ export const deleteProduct = async (req, res) => {
       return res.status(404).json({ message: "product not found" });
     }
   } catch (error) {
-    console.log("the error is :",error);
+    console.log("the error is :", error);
     res.status(500).json({ message: "server error" });
   }
 };
